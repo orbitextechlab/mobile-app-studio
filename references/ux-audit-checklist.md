@@ -118,8 +118,30 @@ For each, ask: can this be simpler without losing clarity?
 - **Safe areas:** notch, status bar, home indicator, bottom navigation, keyboard.
 - **Keyboard:** inputs are not hidden, the CTA is not covered, scrolling is sensible, dismissing feels natural.
 - **Gestures:** swipe, scrolling, bottom sheets, horizontal lists, pull-to-refresh, back gesture.
-- **Device sizes:** small and large phones, dynamic text, long titles, long translations.
-- **Platform conventions:** navigation, back, sheets, alerts, keyboard, tab bars, status bar, touch feedback, scrolling and loading indicators should feel native to iOS and Android. No web patterns without a deliberate product reason.
+- **Scroll bars:** hidden on every scrolling surface: screens, lists, grids, sheets, horizontal chip and card rows, multi-line text areas and web views. The bar only shows while content moves, so a screenshot at rest never catches it; check it mid-swipe or in a recording, and confirm in the source. A visible scroll bar is a P2 finding. The only exception is one the project's design file records with a reason (for example, an index scrubber the product asked for on a list of hundreds of rows).
+
+  | Stack | Hide it |
+  |---|---|
+  | Expo / React Native | `showsVerticalScrollIndicator={false}` on `ScrollView`, `FlatList`, `SectionList`, `FlashList`, `KeyboardAwareScrollView`, the `Animated` variants and `WebView`; `showsHorizontalScrollIndicator={false}` on every `horizontal` list. Put both in the shared screen and list components so new screens inherit them. |
+  | Flutter | Mobile shows no bar by default, so remove every `Scrollbar`, `CupertinoScrollbar` and `RawScrollbar`. Set `scrollBehavior: const MaterialScrollBehavior().copyWith(scrollbars: false)` on `MaterialApp` (or the Cupertino equivalent) so iPad, trackpad and desktop builds match. |
+  | SwiftUI | `.scrollIndicators(.hidden)` once at the root (the `TabView` or `NavigationStack`); it reaches every `ScrollView`, `List` and `Form` below. Each `.sheet` and `.fullScreenCover` presents a new root and needs it too. |
+  | UIKit / Android views | `showsVerticalScrollIndicator = false` and `showsHorizontalScrollIndicator = false` in a shared base class; `android:scrollbars="none"` in a shared style. Compose shows no bar unless code adds one. |
+
+  Find what is left in the source:
+
+  ```sh
+  # Expo / React Native: per file, scroll containers vs hidden-indicator props.
+  # A file where the second count is lower, or a horizontal list without
+  # showsHorizontalScrollIndicator={false}, is a finding.
+  rg -c '<(ScrollView|FlatList|SectionList|FlashList|KeyboardAwareScrollView|Animated\.(ScrollView|FlatList)|WebView)\b' app src components
+  rg -c 'ScrollIndicator=\{false\}' app src components
+  # Flutter
+  rg -n 'Scrollbar\(|scrollbars:' lib
+  # SwiftUI: every presented root needs the modifier
+  rg -n '\.sheet\(|\.fullScreenCover\(|\.scrollIndicators\(' .
+  # UIKit / Android views
+  rg -n 'showsVerticalScrollIndicator|showsHorizontalScrollIndicator|android:scrollbars' .
+  ```
 
 ## §7 Content and microcopy
 
@@ -141,7 +163,7 @@ Fix confusing wording, inconsistent terminology, overly technical language, inco
 
 ## §9 Final quality bar
 
-- **Visual:** consistent typography (no more than five font sizes, all even, none below 12), spacing, alignment and components; balanced hierarchy; polished navigation and bottom tabs; no obvious visual defects.
+- **Visual:** consistent typography (no more than five font sizes, all even, none below 12), spacing, alignment and components; balanced hierarchy; polished navigation and bottom tabs; no scroll bar on any scrolling surface; no obvious visual defects.
 - **UX:** clear navigation and CTAs; predictable interactions; minimal friction; sensible flows; clear feedback; good empty, loading and error states.
 - **Engineering:** no unnecessary hacks; reusable components; the existing architecture respected; business logic preserved; no obvious regressions; a clean implementation.
 - **Principle:** a real person opening the app for the first time immediately understands how to use it, and the whole product feels coherent, intentional and professionally designed.

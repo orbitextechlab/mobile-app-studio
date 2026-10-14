@@ -55,7 +55,7 @@ The skill runs eight phases in order. It never skips to fixing before it underst
 - **Components:** the same concept looks and behaves the same way; duplicates are merged into the canonical version.
 - **Design system:** uses the existing tokens and never invents random values.
 - **Hierarchy:** the most important thing on each screen is what the eye sees first; no competing CTAs.
-- **Mobile:** touch targets, safe areas, keyboard, gestures, small and large screens, dynamic text.
+- **Mobile:** touch targets, safe areas, keyboard, gestures, small and large screens, dynamic text, and no scroll bar on any scrolling surface (checked mid-swipe, since it never shows at rest).
 - **Platform conventions:** feels native on iOS and Android.
 - **Microcopy:** concise, action-oriented, consistent terminology.
 - **States:** default, pressed, disabled, loading, success, error, empty, selected; the list and form states.
@@ -176,6 +176,10 @@ Yes: `/mobile-app-studio --report-only`.
 Only with a strong technical reason. It uses what the project already has, for example Reanimated, Flutter's animation APIs or SwiftUI animations.
 
 ## Changelog
+
+### v1.4.0
+
+- **Scroll bars are hidden.** Every scrolling surface (screens, lists, sheets, horizontal rows, text areas, web views) must hide the platform scroll indicator. The bar only shows while content moves, so phase 2 and phase 5 now scroll each surface and look mid-swipe, and the checklist gives the prop per stack (React Native, Flutter, SwiftUI, UIKit and Android views) plus a source search that finds the containers still showing it. A visible bar is a P2 finding unless the design file records a reason.
 
 ### v1.3.0
 

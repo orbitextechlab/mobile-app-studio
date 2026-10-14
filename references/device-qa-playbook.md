@@ -31,6 +31,7 @@ Use the browser pane's `resize_window` with the mobile preset (375×812) only wh
 - Photograph every screen and state you audit, and again after the fix. Keep the pairs in the report folder if the project stores verification images.
 - **Full-resolution crops:** for each screen, save a full-size screenshot (`xcrun simctl io booted screenshot file.png` or `adb exec-out screencap -p > file.png`) and crop the header, the first content, the edges of cards or widgets and the bottom area at 100 %. Review spacing and alignment only from these crops.
 - **Keyboard:** focus the **last** input of every form, then check that it and the submit button stay visible.
+- **Scroll bars:** the indicator fades about a second after scrolling stops. Take the screenshot immediately after a `swipe` (or record the swipe) on every scrollable surface, including sheets and horizontal rows, and look at the right and bottom edges.
 - **Content length:** try long names, empty lists and one item versus many (for pluralisation).
 - **Forms:** try an empty submit, invalid input, a valid submit, and what happens next (the destination and the feedback).
 - **Completion and edge states:** finish an item, empty a list, hit a limit (paywall or free tier), and check that there is always a next action.

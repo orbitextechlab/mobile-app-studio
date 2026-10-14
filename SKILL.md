@@ -8,7 +8,7 @@ keywords: [ux-audit, ui-review, mobile, qa, flow-coverage, e2e, widgets, motion,
 argument-hint: "[scope: whole app | screen or flow] [--flows] [--report-only] [--no-motion]"
 metadata:
   author: Orbitex Lab
-  version: "1.3.0"
+  version: "1.4.0"
 ---
 
 # Mobile App Studio — UX & Motion Audit
@@ -65,7 +65,7 @@ Follow `references/ux-audit-checklist.md` §1–2. For each important flow:
 2. Complete the main task.
 3. Go back.
 4. Try edge cases.
-5. Watch the loading, empty and error states, the keyboard, scrolling, sheets and modals, and the transitions.
+5. Watch the loading, empty and error states, the keyboard, scrolling, sheets and modals, and the transitions. Scroll every scrollable surface, vertical and horizontal, and look for a scroll bar while it moves: none may show (`references/ux-audit-checklist.md` §6).
 
 Walk complete journeys, for example home → tab → list → detail → back, and home → create → form → validation → submit → success. Then walk **every flow in the inventory** in the data states from `references/flow-coverage.md` (fresh install, one item, many items, long text, longest generated label, completed, missing target, permission denied, interrupted), including the out-of-app surfaces, and fill in the coverage matrix. Verify persistence in the app's storage, not only on screen. Take a screenshot of every screen and state, and a full-resolution crop of each screen's boundaries: header to first content, card and widget edges, the inside of every button, pill and chip, and the bottom area. Read the source of each screen alongside it, so you know the owner of every problem.
 
@@ -98,7 +98,7 @@ Work P0 → P1 → P2 → P3. Don't spend time on a 2px nudge while a flow is br
 
 ## Phase 5 — Re-test on the device (mandatory)
 
-Re-run the original flows and every flow marked Fixed in the coverage matrix, and check every modified screen. Relaunch the app before re-testing; a Fast Refresh after an error can keep running old code. Cover navigation and back, the keyboard, different content lengths, and the empty, loading and error states. Check the tab bar and alignment, re-check every boundary in full-resolution crops (not downscaled screenshots), and look for regressions. Perform each changed animation at normal speed; screenshots alone cannot judge motion. Run typecheck, lint and tests, and compare them with the baseline.
+Re-run the original flows and every flow marked Fixed in the coverage matrix, and check every modified screen. Relaunch the app before re-testing; a Fast Refresh after an error can keep running old code. Cover navigation and back, the keyboard, different content lengths, and the empty, loading and error states. Check the tab bar and alignment, scroll every scrollable surface again to confirm no scroll bar shows, re-check every boundary in full-resolution crops (not downscaled screenshots), and look for regressions. Perform each changed animation at normal speed; screenshots alone cannot judge motion. Run typecheck, lint and tests, and compare them with the baseline.
 
 ## Phase 6 — Second pass
 
